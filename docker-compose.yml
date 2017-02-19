@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    build:
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/linebot
+      - /usr/src/linebot/node_modules
