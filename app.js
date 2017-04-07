@@ -71,6 +71,7 @@ app.post('/callback', (req, res) => {
 });
 */
 
+
 // 動作確認用
 app.listen(app.get('port'), function() {
   console.log('Node app is running');
