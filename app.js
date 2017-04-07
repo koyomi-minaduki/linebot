@@ -1,18 +1,24 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+// 定数宣言
+const CHANNEL_SECRET = process.env.CHANNEL_SECRET;
+const CHANNEL_TOKEN = process.env.CHANNEL_TOKEN;
+const PROXY = process.env.PROXY;
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var app = express();
+const index = require('./routes/index');
+const users = require('./routes/users');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('port', (process.env || 5000));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -44,3 +50,28 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+/*
+// LineBot初期化
+const Linebot = require('./Linebot');
+const bot = new Linebot(CHANNEL_SECRET, CHANNEL_TOKEN, PROXY);
+
+// メッセージ受信
+app.post('/callback', (req, res) => {
+  if(!bot.signatureValidate(req.body, req.headers['x-line-signature'])) {
+    console.log('Signature Validation Failure')
+  } else {
+    const events = bot.parseEvent(req.body);
+    events.forEach(value => {
+      let messages = [{type : "text", text : "Hello"}];
+      bot.replyMessage(value.replyToken, messages);
+    });
+  }
+  res.send("OK");
+});
+*/
+
+// 動作確認用
+app.listen(app.get('port'), function() {
+  console.log('Node app is running');
+});
